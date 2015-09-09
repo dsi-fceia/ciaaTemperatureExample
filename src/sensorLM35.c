@@ -1,19 +1,4 @@
-/* Copyright 2014, ACSE & CADIEEL
- *    ACSE   : http://www.sase.com.ar/asociacion-civil-sistemas-embebidos/ciaa/
- *    CADIEEL: http://www.cadieel.org.ar
- * All rights reserved.
- *
- *    or
- *
- * Copyright 2014, Your Name <youremail@domain.com>
- * All rights reserved.
- *
- *    or
- *
- * Copyright 2014, ACSE & CADIEEL & Your Name <youremail@domain.com
- *    ACSE   : http://www.sase.com.ar/asociacion-civil-sistemas-embebidos/ciaa/
- *    CADIEEL: http://www.cadieel.org.ar
- * All rights reserved.
+/* Copyright 2015, Juan Pablo Vecchio
  *
  * This file is part of CIAA Firmware.
  *
@@ -53,19 +38,21 @@
 
 /** \addtogroup CIAA_Firmware CIAA Firmware
  ** @{ */
-/** \addtogroup Template Template to start a new module
+/** \addtogroup Projects CIAA Firmware Projects
+ ** @{ */
+/** \addtogroup ciaaTemperatureExample ciaa Temperature Example source file
  ** @{ */
 
 /*
  * Initials     Name
  * ---------------------------
- *
+ * JPV         Juan Pablo Vecchio
  */
 
 /*
  * modification history (new versions first)
  * -----------------------------------------------------------
- * yyyymmdd v0.0.1 initials initial version
+ * 20150904 v0.0.1   JPV   initial version
  */
 
 /*==================[inclusions]=============================================*/
@@ -87,14 +74,19 @@
 
 extern int32_t sensorLM35_init(int32_t fdAin, int32_t channel)
 {
-   ciaaPOSIX_ioctl(fd_adc, ciaaPOSIX_IOCTL_SET_SAMPLE_RATE, 100000);
-   ciaaPOSIX_ioctl(fd_adc, ciaaPOSIX_IOCTL_SET_CHANNEL, ciaaCHANNEL_3);
+   ciaaPOSIX_ioctl(fdAin, ciaaPOSIX_IOCTL_SET_SAMPLE_RATE, 100000);
+   ciaaPOSIX_ioctl(fdAin, ciaaPOSIX_IOCTL_SET_CHANNEL, channel);
 }
 
 extern int32_t sensorLM35_getTempCelcius(void)
 {
-	/* Read ADC */
-	controllerCounter++;
+	uint16_t readingLM35;
+	int32_t tempLM35;
+
+   /* Read ADC. */
+   ciaaPOSIX_read(fd_adc, &readingLM35, sizeof(readingLM35));
+   tempLM35 = readingLM35; /* Falta Multiplicacion por factor conversion */
+   return tempLM35;
 }
 
 

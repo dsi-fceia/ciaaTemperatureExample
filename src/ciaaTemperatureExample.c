@@ -1,7 +1,4 @@
-/* Copyright 2014, Mariano Cerdeiro
- * Copyright 2014, Pablo Ridolfi
- * Copyright 2014, Juan Cecconi
- * Copyright 2014, Gustavo Muro
+/* Copyright 2015, Juan Pablo Vecchio
  *
  * This file is part of CIAA Firmware.
  *
@@ -43,7 +40,7 @@
  ** @{ */
 /** \addtogroup Projects CIAA Firmware Projects
  ** @{ */
-/** \addtogroup Blinking Blinking_echo example source file
+/** \addtogroup ciaaTemperatureExample ciaa Temperature Example source file
  ** @{ */
 
 /*
@@ -55,7 +52,7 @@
 /*
  * modification history (new versions first)
  * -----------------------------------------------------------
- * 20150904 v0.0.1   JPV   first templates
+ * 20150904 v0.0.1   JPV   initial version
  */
 
 /*==================[inclusions]=============================================*/
@@ -166,7 +163,7 @@ TASK(InitTask)
    /* init Temperature Controller */
    controller_init();
 
-   sensorLM35_init(fdAin, channel);
+   sensorLM35_init(fd_adc, ciaaCHANNEL_0);
 
    /* terminate task */
    TerminateTask();

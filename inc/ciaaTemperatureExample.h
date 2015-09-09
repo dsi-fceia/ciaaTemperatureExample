@@ -1,7 +1,4 @@
-/* Copyright 2014, Mariano Cerdeiro
- * Copyright 2014, Pablo Ridolfi
- * Copyright 2014, Juan Cecconi
- * Copyright 2014, Gustavo Muro
+/* Copyright 2015, Juan Pablo Vecchio
  *
  * This file is part of CIAA Firmware.
  *
@@ -43,21 +40,21 @@
 
 /** \addtogroup CIAA_Firmware CIAA Firmware
  ** @{ */
-/** \addtogroup Examples CIAA Firmware Examples
+/** \addtogroup Projects CIAA Firmware Projects
  ** @{ */
-/** \addtogroup Blinking Blinking example header file
+/** \addtogroup ciaaTemperatureExample ciaa Temperature Example source file
  ** @{ */
 
 /*
  * Initials     Name
  * ---------------------------
- *
+ * JPV         Juan Pablo Vecchio
  */
 
 /*
  * modification history (new versions first)
  * -----------------------------------------------------------
- * yyyymmdd v0.0.1 initials initial version
+ * 20150904 v0.0.1   JPV   initial version
  */
 
 /*==================[inclusions]=============================================*/

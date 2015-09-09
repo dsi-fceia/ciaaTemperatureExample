@@ -1,19 +1,4 @@
-/* Copyright 2014, ACSE & CADIEEL
- *    ACSE   : http://www.sase.com.ar/asociacion-civil-sistemas-embebidos/ciaa/
- *    CADIEEL: http://www.cadieel.org.ar
- * All rights reserved.
- *
- *    or
- *
- * Copyright 2014, Your Name <youremail@domain.com>
- * All rights reserved.
- *
- *    or
- *
- * Copyright 2014, ACSE & CADIEEL & Your Name <youremail@domain.com
- *    ACSE   : http://www.sase.com.ar/asociacion-civil-sistemas-embebidos/ciaa/
- *    CADIEEL: http://www.cadieel.org.ar
- * All rights reserved.
+/* Copyright 2015, Juan Pablo Vecchio
  *
  * This file is part of CIAA Firmware.
  *
@@ -53,19 +38,21 @@
 
 /** \addtogroup CIAA_Firmware CIAA Firmware
  ** @{ */
-/** \addtogroup Template Template to start a new module
+/** \addtogroup Projects CIAA Firmware Projects
+ ** @{ */
+/** \addtogroup ciaaTemperatureExample ciaa Temperature Example source file
  ** @{ */
 
 /*
  * Initials     Name
  * ---------------------------
- *
+ * JPV         Juan Pablo Vecchio
  */
 
 /*
  * modification history (new versions first)
  * -----------------------------------------------------------
- * yyyymmdd v0.0.1 initials initial version
+ * 20150904 v0.0.1   JPV   initial version
  */
 
 /*==================[inclusions]=============================================*/
@@ -79,27 +66,63 @@
 
 /*==================[internal data definition]===============================*/
 
-uint32_t controllerCounter=0;
+static uint32_t controllerCounter = 0;
+static uint32_t tempAVG = 0;
 
 /*==================[external data definition]===============================*/
 
 /*==================[internal functions definition]==========================*/
 
-void controller_init(void)
+static void controller_init(void)
 {
-   SetRelAlarm(ActivatePeriodicTask, 350, 250);
+   SetRelAlarm(ActivatePeriodicTask, 350, SAMPLES_TIME);
 }
 
-void turnON_Heater(void){
-	/* write RGB R */
+static void turnON_Heater(void)
+{
+   /* write RGB R */
+   ciaaPOSIX_read(fd_out, &outputs, 1);
+   outputs |= RGBR;
+   ciaaPOSIX_write(fd_out, &outputs, 1);
 }
 
-void turnON_Cooler(void){
+static void turnON_Cooler(void){
 	/* write RGB B */
+   ciaaPOSIX_read(fd_out, &outputs, 1);
+   outputs |= RGBB;
+   ciaaPOSIX_write(fd_out, &outputs, 1);
 }
 
-void sendTemp_Uart(void){
+static void turnOFF_Heater(void)
+{
+   /* write RGB R */
+   ciaaPOSIX_read(fd_out, &outputs, 1);
+   outputs &= ~RGBR;
+   ciaaPOSIX_write(fd_out, &outputs, 1);
+}
 
+static void turnOFF_Cooler(void)
+{
+	/* write RGB B */
+   ciaaPOSIX_read(fd_out, &outputs, 1);
+   outputs &= ~RGBB;
+   ciaaPOSIX_write(fd_out, &outputs, 1);
+}
+
+static void sendTemp_Uart(uint32_t tempNow)
+{
+	char data_to_send[7]; /* example 28 °C */
+
+	/* Conversion int to ASCII */
+   data_to_send[0] = 48+(tempNow)/10;
+   data_to_send[1] = 48+(tempNow%10);
+   data_to_send[2] = ' ';
+   data_to_send[3] = '°';
+   data_to_send[4] = 'C';
+   data_to_send[5] = 10; // Salto de linea
+   data_to_send[6] = 13; // Retorno de carro
+
+   ciaaPOSIX_write(fd_uart1, data_to_send, ciaaPOSIX_strlen(data_to_send));
 }
 
 
@@ -108,25 +131,30 @@ void sendTemp_Uart(void){
 
 TASK(ControllerTask)
 {
-   uint32_t tempNow;
-   tempNow=sensorLM35_getTempCelcius();
+   tempAVG += sensorLM35_getTempCelcius();
+   controllerCounter++;
 
-   if(controllerCounter == SAMPLES_NUM){
+   if(controllerCounter == SAMPLES_NUM)
+   {
+      sendTemp_Uart(tempAVG);
 
-
-      sendTemp_Uart(tempNow);
-
-      if(tempNow > TEMP_MAX){
+      if(tempNow > TEMP_MAX)
+      {
     	  turnON_Heater();
+    	  turnOFF_Cooler();
       }
-      else if(tempNow < TEMP_MIN){
+      else if(tempNow < TEMP_MIN)
+      {
     	  turnON_Cooler();
+    	  turnOFF_Heater();
       }
-      else{
-    	  /* Write RGB G */
+      else
+      {
+     	  turnOFF_Heater();
+    	  turnOFF_Cooler();
       }
-
       controllerCounter = 0;
+      tempAVG = 0;
    }
 
    /* terminate task */

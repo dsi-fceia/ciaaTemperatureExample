@@ -1,7 +1,4 @@
-/* Copyright 2014, Mariano Cerdeiro
- * Copyright 2014, Pablo Ridolfi
- * Copyright 2014, Juan Cecconi
- * Copyright 2014, Gustavo Muro
+/* Copyright 2015, Juan Pablo Vecchio
  *
  * This file is part of CIAA Firmware.
  *
@@ -43,38 +40,44 @@
 
 /** \addtogroup CIAA_Firmware CIAA Firmware
  ** @{ */
-/** \addtogroup Examples CIAA Firmware Examples
+/** \addtogroup Projects CIAA Firmware Projects
  ** @{ */
-/** \addtogroup Blinking Blinking example header file
+/** \addtogroup ciaaTemperatureExample ciaa Temperature Example source file
  ** @{ */
 
 /*
  * Initials     Name
  * ---------------------------
- *
+ * JPV         Juan Pablo Vecchio
  */
 
 /*
  * modification history (new versions first)
  * -----------------------------------------------------------
- * yyyymmdd v0.0.1 initials initial version
+ * 20150904 v0.0.1   JPV   initial version
  */
 
 /*==================[inclusions]=============================================*/
 
 /*==================[macros]=================================================*/
 
+/* Masks for Leds */
 #define LED1        0x08
 #define LED2        0x10
 #define LED3        0x20
 #define RGBR        0x01
-#define LEDG        0x02
-#define LEDB        0x04
+#define RGBG        0x02
+#define RGBB        0x04
 
+/* Upper and Lower limits of temperature */
 #define TEMP_MAX        26
 #define TEMP_MIN        24
 
+/* Number of samples to average */
 #define SAMPLES_NUM        10
+
+/* Time between samples */
+#define SAMPLES_TIME        250
 
 /*==================[typedef]================================================*/
 
