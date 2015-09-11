@@ -69,7 +69,7 @@
 
 extern int32_t sensorLM35_init(int32_t fdAin, int32_t channel);
 
-extern int32_t sensorLM35_getTempCelcius(void);
+extern int32_t sensorLM35_getTempCelcius(int32_t fdAin);
 
 /** @} doxygen end group definition */
 /** @} doxygen end group definition */

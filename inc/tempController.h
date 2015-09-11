@@ -85,6 +85,8 @@
 
 /*==================[external functions declaration]=========================*/
 
+extern void controller_init(void);
+
 /** @} doxygen end group definition */
 /** @} doxygen end group definition */
 /** @} doxygen end group definition */

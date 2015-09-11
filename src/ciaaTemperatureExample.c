@@ -60,7 +60,8 @@
 #include "ciaaPOSIX_stdio.h"  /* <= device handler header */
 #include "ciaaPOSIX_string.h" /* <= string header */
 #include "ciaak.h"            /* <= ciaa kernel header */
-#include "TempController.h"         /* <= own header */
+#include "tempController.h"         /* <= own header */
+#include "sensorLM35.h"         /* <= own header */
 #include "ciaaTemperatureExample.h"         /* <= own header */
 
 /*==================[macros and definitions]=================================*/
@@ -70,24 +71,6 @@
 /*==================[internal functions declaration]=========================*/
 
 /*==================[internal data definition]===============================*/
-
-/** \brief File descriptor for digital output ports
- *
- * Device path /dev/dio/out/0
- */
-static int32_t fd_out;
-
-/** \brief File descriptor for ADC
- *
- * Device path /dev/serial/aio/in/0
- */
-static int32_t fd_adc;
-
-/** \brief File descriptor of the USB uart
- *
- * Device path /dev/serial/uart/1
- */
-static int32_t fd_uart1;
 
 /*==================[external data definition]===============================*/
 
@@ -151,19 +134,8 @@ TASK(InitTask)
    /* print message (only on x86) */
    ciaaPOSIX_printf("Init Task...\n");
 
-   /* open CIAA digital outputs */
-   fd_out = ciaaPOSIX_open("/dev/dio/out/0", ciaaPOSIX_O_RDWR);
-
-   /* open CIAA ADC */
-   fd_adc = ciaaPOSIX_open("/dev/serial/aio/in/0", ciaaPOSIX_O_RDONLY);
-
-   /* open UART connected to USB bridge (FT2232) */
-   fd_uart1 = ciaaPOSIX_open("/dev/serial/uart/1", ciaaPOSIX_O_RDWR);
-
    /* init Temperature Controller */
    controller_init();
-
-   sensorLM35_init(fd_adc, ciaaCHANNEL_0);
 
    /* terminate task */
    TerminateTask();

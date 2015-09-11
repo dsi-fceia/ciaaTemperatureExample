@@ -56,6 +56,10 @@
  */
 
 /*==================[inclusions]=============================================*/
+#include "os.h"               /* <= operating system header */
+#include "ciaaPOSIX_stdio.h"  /* <= device handler header */
+#include "ciaaPOSIX_string.h" /* <= string header */
+#include "ciaak.h"            /* <= ciaa kernel header */
 #include "sensorLM35.h"
 
 /*==================[macros and definitions]=================================*/
@@ -78,17 +82,16 @@ extern int32_t sensorLM35_init(int32_t fdAin, int32_t channel)
    ciaaPOSIX_ioctl(fdAin, ciaaPOSIX_IOCTL_SET_CHANNEL, channel);
 }
 
-extern int32_t sensorLM35_getTempCelcius(void)
+extern int32_t sensorLM35_getTempCelcius(int32_t fdAin)
 {
-	uint16_t readingLM35;
-	int32_t tempLM35;
+   uint16_t readingLM35;
+   int32_t tempLM35;
 
    /* Read ADC. */
-   ciaaPOSIX_read(fd_adc, &readingLM35, sizeof(readingLM35));
+   ciaaPOSIX_read(fdAin, &readingLM35, sizeof(readingLM35));
    tempLM35 = readingLM35; /* Falta Multiplicacion por factor conversion */
    return tempLM35;
 }
-
 
 /** @} doxygen end group definition */
 /** @} doxygen end group definition */
