@@ -51,13 +51,7 @@ OSEK OSEK {
       MEMMAP = FALSE;
    };
 
-   RESOURCE = POSIXR;
-
-   EVENT = POSIXE;
-
-   APPMODE = AppMode1;
-
-   TASK InitTask {
+TASK InitTask {
       PRIORITY = 1;
       ACTIVATION = 1;
       AUTOSTART = TRUE {
@@ -68,9 +62,9 @@ OSEK OSEK {
       SCHEDULE = NON;
       RESOURCE = POSIXR;
       EVENT = POSIXE;
-   }
+}
 
-   TASK ControllerTask {
+TASK ControllerTask {
       PRIORITY = 2;
       ACTIVATION = 1;
       STACK = 512;
@@ -78,21 +72,83 @@ OSEK OSEK {
       SCHEDULE = NON;
       RESOURCE = POSIXR;
       EVENT = POSIXE;
-   }
+}
 
-   ALARM ActivatePeriodicTask {
+ALARM ActivatePeriodicTask {
       COUNTER = HardwareCounter;
       ACTION = ACTIVATETASK {
          TASK = ControllerTask;
       }
-   }
+}
 
-   COUNTER HardwareCounter {
+ISR ADC0_IRQHandler {
+    INTERRUPT = ADC0;
+    CATEGORY = 2;
+    PRIORITY = 0;
+}
+
+ISR ADC1_IRQHandler {
+    INTERRUPT = ADC1;
+    CATEGORY = 2;
+    PRIORITY = 0;
+}
+
+ISR DMA_IRQHandler {
+    INTERRUPT = DMA;
+    CATEGORY = 2;
+    PRIORITY = 0;
+}
+
+RESOURCE = POSIXR;
+
+EVENT = POSIXE;
+
+APPMODE = AppMode1;
+
+COUNTER HardwareCounter {
       MAXALLOWEDVALUE = 1000;
       TICKSPERBASE = 1;
       MINCYCLE = 1;
       TYPE = HARDWARE;
       COUNTER = HWCOUNTER0;
+};
+
+COUNTER SoftwareCounter {
+   MAXALLOWEDVALUE = 1000;
+   TICKSPERBASE = 1;
+   MINCYCLE = 1;
+   TYPE = SOFTWARE;
+};
+
+ALARM IncrementSWCounter {
+   COUNTER = HardwareCounter;
+   ACTION = INCREMENT {
+      COUNTER = SoftwareCounter;
    };
+   AUTOSTART = TRUE {
+      APPMODE = AppMode1;
+      ALARMTIME = 1;
+      CYCLETIME = 1;
+   };
+
+};
+
+ISR UART0_IRQHandler {
+   INTERRUPT = UART0;
+   CATEGORY = 2;
+   PRIORITY = 0;
+};
+
+ISR UART2_IRQHandler {
+   INTERRUPT = UART2;
+   CATEGORY = 2;
+   PRIORITY = 0;
+};
+
+ISR UART3_IRQHandler {
+   INTERRUPT = UART3;
+   CATEGORY = 2;
+   PRIORITY = 0;
+};
 
 };

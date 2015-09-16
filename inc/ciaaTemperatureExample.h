@@ -32,9 +32,11 @@
 
 #ifndef _CIAATEMPERATUREEXAMPLE_H_
 #define _CIAATEMPERATUREEXAMPLE_H_
-/** \brief Blinking example header file
+/** \brief ciaaTemperatureExample header file
  **
- ** This is a mini example of the CIAA Firmware
+ ** This is a mini example of a temperature Controller.
+ ** Temperature is sent to the UART.
+ ** Using Leds as Cooler and Heater
  **
  **/
 

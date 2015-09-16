@@ -32,9 +32,11 @@
 
 #ifndef _TEMPCONTROLLER_H_
 #define _TEMPCONTROLLER_H_
-/** \brief Blinking example header file
+/** \brief tempController header file
  **
- ** This is a mini example of the CIAA Firmware
+ ** This is a mini example of a temperature Controller.
+ ** Temperature is sent to the UART.
+ ** Using Leds as Cooler and Heater
  **
  **/
 
@@ -85,6 +87,12 @@
 
 /*==================[external functions declaration]=========================*/
 
+/** \brief Controller initialization
+ **
+ ** Open all devices needed
+ ** Call initialization functions for UART and the temperature sensor
+ ** Set periodic alarm for ControllerTask
+ **/
 extern void controller_init(void);
 
 /** @} doxygen end group definition */

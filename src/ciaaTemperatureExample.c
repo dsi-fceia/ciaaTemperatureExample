@@ -30,9 +30,11 @@
  *
  */
 
-/** \brief Blinking_echo example source file
+/** \brief ciaaTemperatureExample source file
  **
- ** This is a mini example of the CIAA Firmware.
+ ** This is a mini example of a temperature Controller.
+ ** Temperature is sent to the UART.
+ ** Using Leds as Cooler and Heater
  **
  **/
 
@@ -61,8 +63,8 @@
 #include "ciaaPOSIX_string.h" /* <= string header */
 #include "ciaak.h"            /* <= ciaa kernel header */
 #include "tempController.h"         /* <= own header */
-#include "sensorLM35.h"         /* <= own header */
-#include "ciaaTemperatureExample.h"         /* <= own header */
+#include "sensorLM35.h"             /* <= own header */
+#include "ciaaTemperatureExample.h" /* <= own header */
 
 /*==================[macros and definitions]=================================*/
 
@@ -77,6 +79,7 @@
 /*==================[internal functions definition]==========================*/
 
 /*==================[external functions definition]==========================*/
+
 /** \brief Main function
  *
  * This is the main entry point of the software.

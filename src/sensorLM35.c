@@ -30,9 +30,9 @@
  *
  */
 
-/** \brief Short description of this file
+/** \brief sensorLM35 source file
  **
- ** Long description of this file
+ ** Configuration for sensor LM35
  **
  **/
 
@@ -60,7 +60,7 @@
 #include "ciaaPOSIX_stdio.h"  /* <= device handler header */
 #include "ciaaPOSIX_string.h" /* <= string header */
 #include "ciaak.h"            /* <= ciaa kernel header */
-#include "sensorLM35.h"
+#include "sensorLM35.h"       /* <= own header */
 
 /*==================[macros and definitions]=================================*/
 
@@ -70,26 +70,33 @@
 
 /*==================[internal data definition]===============================*/
 
+/** \brief File descriptor for ADC
+ *
+ * Device path /dev/serial/aio/in/0
+ */
+static int32_t fd_adc;
+
 /*==================[external data definition]===============================*/
 
 /*==================[internal functions definition]==========================*/
 
 /*==================[external functions definition]==========================*/
 
-extern int32_t sensorLM35_init(int32_t fdAin, int32_t channel)
+extern void sensorLM35_init(int32_t fdAin, int32_t channel)
 {
    ciaaPOSIX_ioctl(fdAin, ciaaPOSIX_IOCTL_SET_SAMPLE_RATE, 100000);
    ciaaPOSIX_ioctl(fdAin, ciaaPOSIX_IOCTL_SET_CHANNEL, channel);
+   fd_adc = fdAin;
 }
 
-extern int32_t sensorLM35_getTempCelcius(int32_t fdAin)
+extern int32_t sensorLM35_getTempCelsius(void)
 {
    uint16_t readingLM35;
    int32_t tempLM35;
 
    /* Read ADC. */
-   ciaaPOSIX_read(fdAin, &readingLM35, sizeof(readingLM35));
-   tempLM35 = readingLM35; /* Falta Multiplicacion por factor conversion */
+   ciaaPOSIX_read(fd_adc, &readingLM35, sizeof(readingLM35));
+   tempLM35 = readingLM35*330/1023;
    return tempLM35;
 }
 

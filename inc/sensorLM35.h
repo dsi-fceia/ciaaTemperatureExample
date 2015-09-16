@@ -32,9 +32,9 @@
 
 #ifndef _SENSORLM35_H_
 #define _SENSORLM35_H_
-/** \brief Blinking example header file
+/** \brief sensorLM35 header file
  **
- ** This is a mini example of the CIAA Firmware
+ ** Configuration for sensor LM35
  **
  **/
 
@@ -67,9 +67,18 @@
 
 /*==================[external functions declaration]=========================*/
 
-extern int32_t sensorLM35_init(int32_t fdAin, int32_t channel);
+/** \brief Sensor LM35 initialization
+ **
+ ** \param[in] fdAin file descriptor for ADC
+ ** \param[in] channel channel of ADC
+ **/
+extern void sensorLM35_init(int32_t fdAin, int32_t channel);
 
-extern int32_t sensorLM35_getTempCelcius(int32_t fdAin);
+/** \brief Convert temperature to ascii
+ **
+ ** \return temperature in Celsius
+ **/
+extern int32_t sensorLM35_getTempCelsius(void);
 
 /** @} doxygen end group definition */
 /** @} doxygen end group definition */
