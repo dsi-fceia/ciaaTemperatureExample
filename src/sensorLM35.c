@@ -72,7 +72,6 @@
 
 /** \brief File descriptor for ADC
  *
- * Device path /dev/serial/aio/in/0
  */
 static int32_t fd_adc;
 
@@ -96,7 +95,7 @@ extern int32_t sensorLM35_getTempCelsius(void)
 
    /* Read ADC. */
    ciaaPOSIX_read(fd_adc, &readingLM35, sizeof(readingLM35));
-   tempLM35 = readingLM35*330/1023;
+   tempLM35 = readingLM35*LM35_CONVERSION_CONSTANT;
    return tempLM35;
 }
 

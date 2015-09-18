@@ -61,6 +61,14 @@
 
 /*==================[macros]=================================================*/
 
+/** \brief Conversion constant for LM35
+ **
+ **  From LM35 Datasheet  1°C --> 0.010V
+ **  ADC Counts vs Voltage = 1023 --> 3.3 V
+ **
+ **/
+#define LM35_CONVERSION_CONSTANT 330/1023
+
 /*==================[typedef]================================================*/
 
 /*==================[external data declaration]==============================*/
@@ -74,7 +82,7 @@
  **/
 extern void sensorLM35_init(int32_t fdAin, int32_t channel);
 
-/** \brief Convert temperature to ascii
+/** \brief Get temperature in celsius
  **
  ** \return temperature in Celsius
  **/

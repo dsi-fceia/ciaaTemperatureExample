@@ -204,20 +204,20 @@ static void uart_init(int32_t baudrate, int32_t fifolevel)
    char tempMinascii[10];
    convert_temp_to_ascii((TEMP_MIN)*10, tempMinascii);
 
-   char message[] = "------ Temperature Controller ------\r\n\n";
+   const char message[] = "------ Temperature Controller ------\r\n\n";
    ciaaPOSIX_write(fd_uart1, message, ciaaPOSIX_strlen(message));
 
-   char message2[] = "Temperature Maxima:\r\n";
+   const char message2[] = "Maximum Temperature:\r\n";
    ciaaPOSIX_write(fd_uart1, message2, ciaaPOSIX_strlen(message2));
 
    ciaaPOSIX_write(fd_uart1, tempMaxascii, ciaaPOSIX_strlen(tempMaxascii));
 
-   char message3[] = "\nTemperature Minima:\r\n";
+   const char message3[] = "\nMinimum Temperature:\r\n";
    ciaaPOSIX_write(fd_uart1, message3, ciaaPOSIX_strlen(message3));
 
    ciaaPOSIX_write(fd_uart1, tempMinascii, ciaaPOSIX_strlen(tempMinascii));
 
-   char message4[] = "\n\nTemperature Actual:\r\n";
+   const char message4[] = "\n\nActual Temperature:\r\n";
    ciaaPOSIX_write(fd_uart1, message4, ciaaPOSIX_strlen(message4));
 }
 
