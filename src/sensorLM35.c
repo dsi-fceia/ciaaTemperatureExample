@@ -95,7 +95,7 @@ extern int32_t sensorLM35_getTempCelsius(void)
 
    /* Read ADC. */
    ciaaPOSIX_read(fd_adc, &readingLM35, sizeof(readingLM35));
-   tempLM35 = readingLM35*LM35_CONVERSION_CONSTANT;
+   tempLM35 = (readingLM35*LM35_ADC_RANGE/LM35_CELCIUS_TO_MILIVOLTS) / LM35_ADC_COUNTS;
    return tempLM35;
 }
 

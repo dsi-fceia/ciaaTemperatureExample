@@ -61,13 +61,16 @@
 
 /*==================[macros]=================================================*/
 
-/** \brief Conversion constant for LM35
+/** \brief Conversion constants for LM35
  **
- **  From LM35 Datasheet  1°C --> 0.010V
- **  ADC Counts vs Voltage = 1023 --> 3.3 V
+ **  From LM35 Datasheet  1°C --> 10mV
+ **  ADC Counts vs Voltage = 1023 --> 3300mV
  **
  **/
-#define LM35_CONVERSION_CONSTANT 330/1023
+
+#define LM35_ADC_RANGE 3300
+#define LM35_ADC_COUNTS 1023
+#define LM35_CELCIUS_TO_MILIVOLTS 10
 
 /*==================[typedef]================================================*/
 
